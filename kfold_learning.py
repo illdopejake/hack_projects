@@ -314,6 +314,9 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
         if problem == 'regression':
             if len(y[train.index]) != len(predicted):
                 print('WARNING: No features selected in at least one fold')
+                val_res, val_res2, t_res = np.nan, np.nan, np.nan
+                if type(ci) == float:
+                    ci_l, ci_u, cim, p, r = np.nan, np.nan, np.nan, np.nan, np.nan
             else:
                 r,p = stats.pearsonr(y[train.index],predicted)
                 val_res = (r**2)*100

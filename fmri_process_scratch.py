@@ -33,13 +33,15 @@ lds = [cmtx[:,x].sum() for x in range(cmtx.shape[-1])]
  def extract_cmat(dat, atl):
     sub_mat = pandas.DataFrame(index = range(443),columns = range(dat.shape[0]))
     tot = np.bincount(atl.astype(int).flat)
-    for frm in range(dat.shape[0]):
-        mtx = dat[frm,:,:,:]
+    #for frm in range(dat.shape[0]):
+    for frm in range(dat.shape[-1]):
+        #mtx = dat[frm,:,:,:]
+        mtx = dat[:,:,:,frm]
         sums = np.bincount(atl.astype(int).flat,weights=mtx.flat)
         rois = (sums/tot)[1:-1]
         sub_mat[sub_mat.columns[frm]] = rois
     cmtx = np.corrcoef(sub_mat)
-    cmtx = np.arctanh(cmtx)
+    #cmtx = np.arctanh(cmtx)
     
     return cmtx
 
@@ -62,3 +64,29 @@ for sub,scnz in scans.items():
         outputs[d].loc[sub] = lds
         outputs[d].to_csv('/sf1/project/yai-974-aa/users/jvogel44/link_density443_%s'%d)
     print('finished',sub)
+
+
+
+
+
+for scan in scans:
+...:     sid = scan.split('_')[1]
+...:     jnk = loadmat(scan)
+...:     features = jnk['inter'][0][0][0][0]
+...:     ndict = reshuffle_matrix(features,444)
+...:     nmat = np.zeros((444,444))
+...:     for k,v in ndict.items():
+...:         nmat[k[0]-1,k[1]-1] = v
+...:     for d in [2]:
+...:         nmtx = deepcopy(nmat)
+...:         thr = (100 - d) * .01
+...:         binval = sorted(features)[int(len(features) * thr)]
+...:         nmtx[nmtx<binval] = 0
+...:         nmtx[nmtx>0] = 1
+...:         lds = []
+...:         for i in range(444):
+...:             lds.append(sum(nmtx[i,:]) + sum(nmtx[:,i]))
+...:         outputs[d].loc[sid,outputs[d].columns[:444]] = lds
+...:         outputs[d].to_csv('/sf1/project/yai-974-aa/users/jvogel44/proper_ld_444_%s'%d)
+...:     print('finished',sid)
+    
