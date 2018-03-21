@@ -154,7 +154,8 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
         all_mods = {}
         save_int = False
         all_ints = np.nan
-    all_mods = []
+    else:
+        all_mods = []
 
     # scale inputs
     if scale:
@@ -244,8 +245,7 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
             new_clf = mod_sel.best_estimator_
             model = new_clf.fit(sig_mtx,y[sig_mtx.index])
         else:
-            model = clf.fit(sig_mtx,y[sig_mtx.index])
-        all_mods.append(deepcopy(model))
+            model = clf.fit(sig_mtx,y[sig_mtx.index])          
         if hasattr(model, 'coef_'):
             try:
                 all_weights.loc[(fold-1)][sig_mtx.columns] = model.coef_
@@ -280,6 +280,8 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
                 all_mods.update({model: [sig_mtx.columns, scr_wt]})
             else:
                 all_mods.update({model: sig_mtx.columns})
+        else:
+            all_mods.append(deepcopy(model))
         # reset variables
         fold += 1
         if len(regcols) == 0:
