@@ -55,9 +55,9 @@ def init_and_chk_inputs(atlas,coordinates):
     print('checking and initializing inputs')
     if type(atlas) == str:
         atl = ni.load(atlas).get_data()
-    elif type(atlas) == nibabel.nifti1.Nifti1Image: 
+    elif type(atlas) == ni.nifti1.Nifti1Image: 
         atl = atlas.get_data()
-    elif type(atlas) == numpy.core.memmap.memmap or type(atlas) == np.ndarray:
+    elif type(atlas) == np.core.memmap.memmap or type(atlas) == np.ndarray:
         atl = atlas
     else:
         raise IOError('atlas must be a nifti object, a numpy array or a path to a nifti file')
