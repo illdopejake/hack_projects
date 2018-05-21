@@ -21,8 +21,8 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
     This is a function that will use nested cross validation to generate an average model
     that will hopefully generalize better to unseen test data. 
     
-    You can must your training and testing data, and your y variable for both, the model you 
-    wish to use for  prediction, and whether the problem is classification or regression.
+    You can must enter your training and testing data, and your y variable for both, the model you 
+    wish to use for prediction, and whether the problem is classification or regression.
     
     The function will run K iterations of prediction on your training set, and will average 
     the weights across folds for a final model. The final model will then be applied to your 
@@ -30,13 +30,14 @@ def kfold_feature_learning(train, test, y, t_y, clf = linear_model.LassoCV(cv=10
     
     Several other options exists (see below), and are forthcoming.
     
-    ATTENTION: THIS SCRIPT IS STILL IN DEVELOPMENT. IT IS UGLY AND UNFINISHED, SO DONT JUDGE
+    ATTENTION: THIS SCRIPT IS STILL IN DEVELOPMENT. IT IS UGLY AND UNFINISHED, SO DONT JUDGE!
+    SOME FEATURES ARE IN BETA, AND IT WILL NOT ACCEPT SOME MODELS FOR CLF!
     
     
     *** USER-DEFINED ARGUMENTS ***
     
     -- train is a subjects x variables dataframe (this represents your training data)
-    -- y is a pandas series with the same index as train. y should not be in train
+    -- y is a pandas Series with the same index as train. y should not be in train
     
     # NOTE: train and test indices should just be a range
     
